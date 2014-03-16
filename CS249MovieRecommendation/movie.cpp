@@ -361,10 +361,10 @@ vector<double> getPreference(int userID){
 }
 
 void getAverage(int userID, double& average, double& variant,int& m_total){
-	int total = 0;
-	int count = 0;
+	double total = 0;
+	double count = 0;
 	vector<int> ratings;
-	for (int i = 0; i < 3900; i++){
+	for (int i = 0; i < COL; i++){
 
 		if (ratingMatrix[userID - 1][i] != -1){
 			total += ratingMatrix[userID - 1][i];
@@ -373,10 +373,10 @@ void getAverage(int userID, double& average, double& variant,int& m_total){
 
 		}
 	}
-	average = (double)total / count;
-	m_total = count;
+	average = total / count;
+	m_total = (int)count;
 	for (int i = 0; i < ratings.size(); i++){
-		variant = pow((ratings[i] - average), 2);
+		variant =variant+ pow((ratings[i] - average), 2.0);
 	}
 
 }
@@ -395,12 +395,12 @@ void initializeUserDataArr(){
 		int gender = getGender(line);
 		int age = getAge(line);
 		vector<double> preference = getPreference(userID);
-		double average;
-		double variant;
+		double average=0;
+		double variant=0;
 		int total = 0;
 		getAverage(userID, average, variant,total);
 		userArr[i++] = userData(userID, gender, age, preference, average, variant,total);
-		if (test){
+		if (userArr[userID-1].variant==0){
 			cout << "userID: " << userID << "gender: " << gender << "age: " << age << " " << "perference: ";
 			for (int i = 0; i < preference.size(); i++){
 				cout << preference[i] << ",";
@@ -422,10 +422,12 @@ int main()
 	cout << "MovieArr successfully initialized" << endl;
 	initializeUserDataArr();
 	cout << "UserDataArr successfully initialized" << endl;
+	/*
 	int i;
 	int CF_size, content_size;
 	CF_list_t * CF_list;
 	content_list_t * content_list;
+
 	for (i = 0; i<total_user; i++)
 	{
 		cerr<<i<<endl;
@@ -436,5 +438,6 @@ int main()
 //		delete content_list;
 	}
 	return 0;
+	*/
 	 cin.get();
 }
