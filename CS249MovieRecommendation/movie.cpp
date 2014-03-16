@@ -265,7 +265,7 @@ double getMovieRating(int movieID){
 
 	}
 	if (count == 0) return total;
-	return total / count;
+	return (double)total / count;
 }
 
 void initializeMovieArr(){
@@ -436,6 +436,5 @@ int main()
 //		delete content_list;
 	}
 	return 0;
-
 	 cin.get();
 }
