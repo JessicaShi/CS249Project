@@ -8,6 +8,7 @@
 using namespace std;
 
 int test = 0;
+int test1 = 1;
 const int ROW = 6040;
 const int COL = 3900;
 int ratingMatrix[ROW][COL]; //sotores which user watches which movie and the movie rating from the user;
@@ -277,7 +278,7 @@ void initializeMovieArr(){
 	while (getline(fin, line)){
 
 		int movieID = getMovieID2(line);
-		if (test){
+		if (test1){
 			cout << movieID << ":";
 		}
 		string movieTitle = getMovieTitle(line);

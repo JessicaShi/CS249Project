@@ -191,6 +191,8 @@ void filter(CF_list_t * CF_list, int CF_len, content_list_t * content_list, int 
 		tmp = CF_list[i];
 		if (movieScore.count(mid) == 0)
 		{
+			cout<<n<<endl;
+			cout<<tmp.uid<<endl;
 			cout << userArr[n].total << endl;
 			cout << userArr[tmp.uid].variant << endl;
 			rec_count[mid]++;
@@ -198,6 +200,8 @@ void filter(CF_list_t * CF_list, int CF_len, content_list_t * content_list, int 
 		}
 		else
 		{
+			cout<<n<<endl;
+			cout<<tmp.uid<<endl;
 			cout << userArr[n].total << endl;
 			cout << userArr[tmp.uid].variant << endl;
 			rec_count[mid]++;
