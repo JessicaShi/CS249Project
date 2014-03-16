@@ -265,7 +265,7 @@ double getMovieRating(int movieID){
 
 	}
 	if (count == 0) return total;
-	return total / count;
+	return (double)total / count;
 }
 
 void initializeMovieArr(){
@@ -423,7 +423,7 @@ int main()
 	cout << "MovieArr successfully initialized" << endl;
 	initializeUserDataArr();
 	cout << "UserDataArr successfully initialized" << endl;
-	/*
+	
 	int i;
 	int CF_size, content_size;
 	CF_list_t * CF_list;
@@ -435,6 +435,6 @@ int main()
 		filter(CF_list, CF_size, content_list, content_size, i);
 	}
 	return 0;
-	*/
+	
 	 cin.get();
 }
