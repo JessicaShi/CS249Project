@@ -4,7 +4,7 @@ using namespace std;
 struct CF_candidate_t
 {
 	int mid;
-	int score;
+	double score;
 	int date;
 };
 struct movie_candidate_t
@@ -40,9 +40,9 @@ int cmp(const void *a, const void *b)
 	y = (CF_candidate_t *)b;
 
 	if (x->score != y->score)
-		return x->score - y->score;
+		return y->score - x->score;
 	else
-		return x->date - y->date;
+		return y->date - x->date;
 }
 
 CF_list_t * CF(int uid, int &return_size)
@@ -118,7 +118,7 @@ bool movie_cmp(movie_candidate_t a, movie_candidate_t b)
 }
 void scan_and_pick(int pid, content_list_t* list, int &index, int quota, int uid)
 {
-	int i, j;
+	int i, j,k;
 	vector<movie_candidate_t> movie_list;
 	for (i = 0; i<total_movie; i++)
 	{
@@ -139,8 +139,15 @@ void scan_and_pick(int pid, content_list_t* list, int &index, int quota, int uid
 
 			break;
 		}
+	//	list[index] = new content_list_t;
 		list[index].mid = movie_list[j].mid;
 		list[index].score = movie_list[j].score;
+	/*	for(k=0;k<total_preference;k++)
+		{
+			cout<<movieArr[j].genre[k]<<endl;
+		}
+	*/
+	//	for(k=0;k<movieArr[j].genre.size();k++)
 		list[index].preference = movieArr[j].genre;
 		index++;
 	}
@@ -151,7 +158,7 @@ void scan_and_pick(int pid, content_list_t* list, int &index, int quota, int uid
 content_list_t * content_filter(int uid, int &size)
 {
 	content_list_t* output_list;
-	output_list = (content_list_t *)malloc(sizeof(content_list_t)* 5 * output_size);
+	output_list = new content_list_t[5 * output_size];
 	int index = 0;
 	vector<double> preference = userArr[uid].preference;
 
@@ -191,19 +198,19 @@ void filter(CF_list_t * CF_list, int CF_len, content_list_t * content_list, int 
 		tmp = CF_list[i];
 		if (movieScore.count(mid) == 0)
 		{
-			cout<<n<<endl;
+		/*	cout<<n<<endl;
 			cout<<tmp.uid<<endl;
 			cout << userArr[n].total << endl;
-			cout << userArr[tmp.uid].variant << endl;
+			cout << userArr[tmp.uid].variant << endl; */
 			rec_count[mid]++;
 			movieScore[mid] = lambda*tmp.similarity*(tmp.common / userArr[n].total)*(tmp.score - userArr[tmp.uid].average / sqrt(userArr[tmp.uid].variant))*(1.0 / rec_count[mid]);
 		}
 		else
 		{
-			cout<<n<<endl;
+		/*	cout<<n<<endl;
 			cout<<tmp.uid<<endl;
 			cout << userArr[n].total << endl;
-			cout << userArr[tmp.uid].variant << endl;
+			cout << userArr[tmp.uid].variant << endl; */
 			rec_count[mid]++;
 			movieScore[mid] += lambda*tmp.similarity*(tmp.common / userArr[n].total)*(tmp.score - userArr[tmp.uid].average / sqrt(userArr[tmp.uid].variant))*(1.0 / rec_count[mid]);
 		}
@@ -226,11 +233,16 @@ void filter(CF_list_t * CF_list, int CF_len, content_list_t * content_list, int 
 		{
 			movieScore[mid] = (1 - lambda)*content_list[i].score*preference;
 		}
+		else
+		{
+			movieScore[mid] += (1 - lambda)*content_list[i].score*preference;
+		}
 	}
 
 	map<int, float>::iterator it;
 	vector<output_list_t> output;
-	for (it = movieScore.begin(); it != movieScore.end(); i++)
+	cerr<< movieScore.size();
+	for (it = movieScore.begin(); it != movieScore.end(); it++)
 	{
 		output_list_t outputNode;
 		outputNode.mid = it->first;
@@ -244,6 +256,6 @@ void filter(CF_list_t * CF_list, int CF_len, content_list_t * content_list, int 
 	for (i = 0; i<output_size; i++) cout << output[i].mid << ' ';
 	cout << endl;
 
-
+	free(output_list);
 	return;
 }

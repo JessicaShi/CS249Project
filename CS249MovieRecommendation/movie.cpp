@@ -8,13 +8,13 @@
 using namespace std;
 
 int test = 0;
-int test1 = 1;
+int test1 = 0;
 const int ROW = 6040;
-const int COL = 3900;
+const int COL = 3952;
 int ratingMatrix[ROW][COL]; //sotores which user watches which movie and the movie rating from the user;
 int timeStampMatrix[ROW][COL];
 ratings ratingArr[1000209]; //helper array
-movieData movieArr[3900]; //store all the 3900 movies information
+movieData movieArr[COL]; //store all the 3900 movies information
 userData userArr[6040];
 int userIDArr[6040]; //store the number of movies each user watched
 unordered_map<string, int> MovieGenreMap;
@@ -278,9 +278,6 @@ void initializeMovieArr(){
 	while (getline(fin, line)){
 
 		int movieID = getMovieID2(line);
-		if (test1){
-			cout << movieID << ":";
-		}
 		string movieTitle = getMovieTitle(line);
 		int year = getMovieYear(line);
 
@@ -288,7 +285,11 @@ void initializeMovieArr(){
 
 		double averageRating = getMovieRating(movieID);
 		movieArr[movieID - 1] = movieData(movieID, movieTitle, year, movieType, averageRating);
-
+		if (test1){
+			cout << movieID << ":" << movieTitle << endl;
+		}
+		
+		
 
 	}
 
@@ -373,7 +374,7 @@ void getAverage(int userID, double& average, double& variant,int& m_total){
 		}
 	}
 	average = (double)total / count;
-	m_total = total;
+	m_total = count;
 	for (int i = 0; i < ratings.size(); i++){
 		variant = pow((ratings[i] - average), 2);
 	}
@@ -404,7 +405,8 @@ void initializeUserDataArr(){
 			for (int i = 0; i < preference.size(); i++){
 				cout << preference[i] << ",";
 			}
-			cout << "average: " << average << "variant :" << variant << endl;
+			cout << "average: " << average << "variant :" << variant;
+			cout << " total :" << total << endl;
 		}
 
 	}
@@ -420,17 +422,20 @@ int main()
 	cout << "MovieArr successfully initialized" << endl;
 	initializeUserDataArr();
 	cout << "UserDataArr successfully initialized" << endl;
-
 	int i;
 	int CF_size, content_size;
 	CF_list_t * CF_list;
 	content_list_t * content_list;
 	for (i = 0; i<total_user; i++)
 	{
+		cerr<<i<<endl;
 		CF_list = CF(i, CF_size);
 		content_list = content_filter(i, content_size);
 		filter(CF_list, CF_size, content_list, content_size, i);
+		free(CF_list);
+//		delete content_list;
 	}
 	return 0;
-	// cin.get();
+
+	 cin.get();
 }
