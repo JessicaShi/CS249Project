@@ -69,16 +69,16 @@ struct content_list_t
 
 extern const int ROW;
 extern const int COL;
-extern int ratingMatrix[6040][3900]; //sotores which user watches which movie and the movie rating from the user;
-extern int timeStampMatrix[6040][3900];
+extern int ratingMatrix[6040][3952]; //sotores which user watches which movie and the movie rating from the user;
+extern int timeStampMatrix[6040][3952];
 extern ratings ratingArr[1000209]; //helper array
-extern movieData movieArr[3900]; //store all the 3900 movies information
+extern movieData movieArr[3952]; //store all the 3900 movies information
 extern userData userArr[6040];
 extern int userIDArr[6040]; //store the number of movies each user watched
-extern int ratingMatrixPrediction[6040][3900];
+extern int ratingMatrixPrediction[6040][3952];
 
 const int total_user = 6040;
-const int total_movie = 3900;
+const int total_movie = 3952;
 const int total_rating = 1000209;
 const int total_preference = 18;
 const int output_size = 10;
